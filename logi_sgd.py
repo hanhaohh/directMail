@@ -10,15 +10,15 @@ import pickle
 ##############################################################################
 
 # A, paths
-train='train.csv'
-test='test.csv'
+train='feature_selected.csv'
+test='feature_selected.csv'
 submission = 'sgd_subm.csv'  # path of to be outputted submission file
 
 # B, model
-alpha = .005  	# learning rate
-beta = 1		
-L1 = 0.     	# L1 regularization, larger value means more regularized
-L2 = 0.     	# L2 regularization, larger value means more regularized
+alpha = .005    # learning rate
+beta = 1        
+L1 = 0.         # L1 regularization, larger value means more regularized
+L2 = 0.         # L2 regularization, larger value means more regularized
 
 # C, feature/hash trick
 D = 2 ** 24             # number of weights to use
@@ -55,7 +55,6 @@ class gradient_descent(object):
 
     def _indices(self, x):
         ''' A helper generator that yields the indices in x
-
             The purpose of this generator is to make the following
             code a bit cleaner when doing feature interaction.
         '''
@@ -80,16 +79,14 @@ class gradient_descent(object):
 
     def predict(self, x):
         ''' Get probability estimation on x
-
             INPUT:
                 x: features
-
             OUTPUT:
                 probability of p(y = 1 | x; w)
         '''
 
         # model
-        w = self.w	
+        w = self.w  
 
         # wTx is the inner product of w and x
         wTx = 0.
@@ -101,12 +98,10 @@ class gradient_descent(object):
 
     def update(self, x, p, y):
         ''' Update model using x, p, y
-
             INPUT:
                 x: feature, a list of indices
                 p: click probability prediction of our model
                 y: answer
-
             MODIFIES:
                 self.G: increase by squared gradient
                 self.w: weights
@@ -133,11 +128,9 @@ class gradient_descent(object):
 
 def logloss(p, y):
     ''' FUNCTION: Bounded logloss
-
         INPUT:
             p: our prediction
             y: real answer
-
         OUTPUT:
             logarithmic loss of p given y
     '''
@@ -149,11 +142,9 @@ def logloss(p, y):
 def data(path, D):
     ''' GENERATOR: Apply hash-trick to the original csv row
                    and for simplicity, we one-hot-encode everything
-
         INPUT:
             path: path to training or testing file
             D: the max index that we can hash to
-
         YIELDS:
             ID: id of the instance, mainly useless
             x: a list of hashed and one-hot-encoded 'indices'
@@ -162,8 +153,9 @@ def data(path, D):
     '''
 
     for t, row in enumerate(DictReader(open(path), delimiter=',')):
-      
+        ID = t
         try:
+
             ID=row['ID']
             del row['ID']
         except:
